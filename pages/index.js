@@ -1,8 +1,15 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { decrement, increment } from '../redux/features/counter/counterSlice';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 export default function Home() {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,12 +20,20 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Next.js! v.{count}</a>
         </h1>
 
+        <Stack spacing={2} direction="row">
+          <Button onClick={() => dispatch(increment())} variant="text">
+            Increment
+          </Button>
+          <Button onClick={() => dispatch(decrement())} variant="contained">
+            Decrement
+          </Button>
+        </Stack>
+
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Get started by editing <code className={styles.code}>pages/index.js</code>
         </p>
 
         <div className={styles.grid}>
@@ -32,10 +47,7 @@ export default function Home() {
             <p>Learn about Next.js in an interactive course with quizzes!</p>
           </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
+          <a href="https://github.com/vercel/next.js/tree/canary/examples" className={styles.card}>
             <h2>Examples &rarr;</h2>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
@@ -45,9 +57,7 @@ export default function Home() {
             className={styles.card}
           >
             <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <p>Instantly deploy your Next.js site to a public URL with Vercel.</p>
           </a>
         </div>
       </main>
@@ -65,5 +75,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
